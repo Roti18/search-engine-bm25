@@ -63,7 +63,3 @@ Run Program
 
 - [@Zidan](https://www.github.com/zeedandp)
 - [@Roni](https://www.github.com/Roti18)
-
-## Demo
-
-Coming soon
