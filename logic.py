@@ -11,7 +11,7 @@ def semua(n):
   for i in n:
     count += 1
   return count
-print(semua("testing hallo"))
+# print(semua("testing hallo"))
 
 # sum(menghitung semua elemen angka)
 def count(n):
