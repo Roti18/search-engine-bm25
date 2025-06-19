@@ -45,9 +45,6 @@ documents = [
     "Berita Gembira, SK CPNS dan PPPK Tahap I 2024 Kapuas Hulu Diserahkan Pertengahan Mei 2025",
     "Pertama Kali Muncul ke Publik, Alan Pimpinan Islam Sejati Bantah Sebar Ajaran Sesat",
 ]
-query = input("")
-
-
 
 
 # get title news from newsapi
@@ -361,58 +358,60 @@ def bm25_score_per_doc(query_terms, satu_doc, semua_doc):
 # =====================================================================================
 
 
-kecil_document = kecilKan(documents)
-del_pnghbng_tnd = []
-for teks in kecil_document:
-    teks_bersih = hapus_tandabaca(teks)
-    daftar_kata = splt(teks_bersih)
-    hasil_bersih = hapus_penghubung(daftar_kata)
-    gabung(del_pnghbng_tnd, hasil_bersih)
+lanjut = True
+while lanjut:
+    query = input("\nMasukkan query: ")
 
-split_query = hapus_penghubung(splt(kecilKan([query])[0]))
-tf_doc = tf(split_query, del_pnghbng_tnd)
+    kecil_document = kecilKan(documents)
+    del_pnghbng_tnd = []
+    for teks in kecil_document:
+        teks_bersih = hapus_tandabaca(teks)
+        daftar_kata = splt(teks_bersih)
+        hasil_bersih = hapus_penghubung(daftar_kata)
+        gabung(del_pnghbng_tnd, hasil_bersih)
 
-# Tampilkan hasil TF
-print("\n========================================= TF TIAP DOKUMEN")
-print("-" * 100)
-total_kata_query = {}
-for i, tf_data in index(tf_doc):
-    ori_doc = documents[i]
-    print(f"Dokumen {i+1} ('{ori_doc}'):")
-    kosong = True
-    for term, count in loop_dict(tf_data):
-        if count > 0:
-            print(f"  - '{term}': {count} kali")
-            kosong = False
-            if term in total_kata_query:
-                total_kata_query[term] += count
-            else:
-                total_kata_query[term] = count
-    if kosong:
-        print("  Tidak ada kata kunci kueri yang ditemukan.")
+    split_query = hapus_penghubung(splt(kecilKan([query])[0]))
+    tf_doc = tf(split_query, del_pnghbng_tnd)
+
+    print("\n========================================= TF TIAP DOKUMEN")
     print("-" * 100)
+    total_kata_query = {}
+    for idx, tf_data in index(tf_doc):  # GANTI 'index' dengan 'idx'
+        ori_doc = documents[idx]
+        print(f"Dokumen {idx+1} ('{ori_doc}'):")
+        kosong = True
+        for term, count in loop_dict(tf_data):
+            if count > 0:
+                print(f"  - '{term}': {count} kali")
+                kosong = False
+                if term in total_kata_query:
+                    total_kata_query[term] += count
+                else:
+                    total_kata_query[term] = count
+        if kosong:
+            print("  Tidak ada kata kunci kueri yang ditemukan.")
+        print("-" * 100)
 
-# Tampilkan IDF Score
-print("\n========================================= IDF SCORE SETIAP KATA DALAM DOKUMEN")
-jumlah_dokumen = semua(tf_doc)
-for term in split_query:
-    doc_freq = df(term, tf_doc)
-    skor_idf = idft(jumlah_dokumen, doc_freq)
-    print(f"  - '{term}': IDF = {skor_idf:.4f} (DF = {doc_freq})")
+    print("\n========================================= IDF SCORE SETIAP KATA DALAM DOKUMEN")
+    jumlah_dokumen = semua(tf_doc)
+    for term in split_query:
+        doc_freq = df(term, tf_doc)
+        skor_idf = idft(jumlah_dokumen, doc_freq)
+        print(f"  - '{term}': IDF = {skor_idf:.4f} (DF = {doc_freq})")
 
-print("\n========================================= BM25 Score Tiap DOKUMEN")
-list_score = []
-for i in range(semua(del_pnghbng_tnd)):
-    skor = bm25_score_per_doc(split_query, del_pnghbng_tnd[i], del_pnghbng_tnd)
-    print(f"Dokumen {i+1}: Skor BM25 = {skor:.4f}")
-    if skor > 0:
-       gabung(list_score, (i+1, skor))
+    print("\n========================================= BM25 Score Tiap DOKUMEN")
+    list_score = []
+    for i in range(semua(del_pnghbng_tnd)):
+        skor = bm25_score_per_doc(split_query, del_pnghbng_tnd[i], del_pnghbng_tnd)
+        print(f"Dokumen {i+1}: Skor BM25 = {skor:.4f}")
+        if skor > 0:
+            gabung(list_score, (i+1, skor))
 
+    print("\n========================================= PERANGKINGAN DOCUMENT")
+    ranking = sortir(list_score)
+    for rank_idx, skor in ranking:
+        print(f"Dokumen {rank_idx} ('{documents[rank_idx - 1]}') ==> Skor BM25 = {skor:.4f}")
+        print("-"*100)
 
-print("\n========================================= PERANGKINGAN DOCUMENT")
-# print(list_score)
-ranking = sortir(list_score)
-
-for index, skor in ranking:
-    print(f"Dokumen {index} ('{documents[index - 1]}') ==> Skor BM25 = {skor:.4f}")
-    print("-"*100)
+    tanya = input("\nIngin memasukkan query lagi? (y/n): ")
+    lanjut = kecilKan(tanya)[0] == "y"
