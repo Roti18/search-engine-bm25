@@ -45,29 +45,8 @@ documents = [
     "Berita Gembira, SK CPNS dan PPPK Tahap I 2024 Kapuas Hulu Diserahkan Pertengahan Mei 2025",
     "Pertama Kali Muncul ke Publik, Alan Pimpinan Islam Sejati Bantah Sebar Ajaran Sesat",
 ]
+
 query = input("")
-
-
-
-
-# get title news from newsapi
-# import requests
-# import json
-
-# api_key = "d339770793d34aa4908f2bf6609a3c9b"
-# url = f"https://newsapi.org/v2/everything?q=berita&language=id&pageSize=100&apiKey={api_key}"
-
-# response = requests.get(url)
-# data = response.json()
-
-# with open("berita.json", "w", encoding="utf-8") as f:
-#     json.dump(data, f, ensure_ascii=False, indent=4)
-
-# print(f"Berhasil menyimpan {len(data.get('articles', []))} artikel ke 'berita.json'")
-
-# ===============================================================================================
-# ================================= START STEP 1 ================================================
-# ===============================================================================================
 
 # append(gabungkan isi)
 # list = []
@@ -82,7 +61,6 @@ def semua(n):
   for i in n:
     count += 1
   return count
-# print(semua("testing hallo"))
 
 # sum(menghitung semua elemen angka)
 def count(n):
@@ -90,7 +68,6 @@ def count(n):
   for i in n:
     result += i
   return result
-# print(count([18,29,79]))
 
 # max(mencari nilai tertinggi)
 def findMax(n):
@@ -99,7 +76,6 @@ def findMax(n):
     if i > big:
       big = i
   return big
-# print(findMax([18,78,10]))
 
 def findMin(n):
   low = n[0]
@@ -107,7 +83,6 @@ def findMin(n):
     if i < low:
       low = i
   return low
-# print(findMin([18,78,10]))
 
 # any(Mengembalikan True jika minimal satu elemen dalam iterable bernilai True.)
 def ada(n):
@@ -115,7 +90,6 @@ def ada(n):
     if i:
       return True
   return False
-# print(ada([0,0,0]))
 
 # all(Mengembalikan True hanya jika semua elemen dalam iterable bernilai True.)
 def allTrue(n):
@@ -123,14 +97,10 @@ def allTrue(n):
     if not i:
       return False
   return True
-# print(allTrue([0,1,1,1]))
 
 # map(Menerapkan fungsi ke setiap elemen dalam iterasi.)
 def applyAll(func, n):
     return [func(i) for i in n]
-# angka = [1, 2, 3]
-# hasil = applyAll(lambda x: x * 2, angka)
-# print(hasil)
 
 # sorted(mengatur angka dari besar ke kecil)
 def sortir(data):
@@ -146,8 +116,6 @@ def sortir(data):
           i += 1
   return data
 
-
-
 # filter(Menyaring elemen dalam iterable berdasarkan kondisi fungsi yang diberikan (mengembalikan True))
 def saring(func, n):
     hasil = []
@@ -155,10 +123,6 @@ def saring(func, n):
         if func(i):
             gabung(hasil, i)
     return hasil
-# angka = [1, 2, 3, 4, 5]
-# genap = saring(lambda x: x % 2 == 0, angka)
-# print(genap)
-
 
 # enumerate(Memberikan indeks dan nilai dari iterasi)
 def index(n):
@@ -168,26 +132,23 @@ def index(n):
     gabung(result,(i, item))
     i+=1
   return result
-# buah = ['apel', 'jeruk', 'mangga']
-# for i, nama in index(buah):
-#     print(i, nama)
 
-# split (pisah perkalimat)
+# split (pisah perkalimat) - FIXED VERSION
 def splt(kalimat):
   kata = ""
   hasil = []
   for huruf in kalimat:
-      if huruf != " ":
+      if huruf != " " and huruf != "\t" and huruf != "\n":
           kata += huruf.lower()
       else:
           if kata:
               gabung(hasil, kata)
               kata = ""
-  if kata:
+  if kata:  # jangan lupa kata terakhir
     gabung(hasil, kata)
   return hasil
 
-# memecah dictionary utnuk di tampilkan
+# memecah dictionary untuk di tampilkan
 def loop_dict(kamus_data):
   daftar_pasangan = []
   for kunci in kamus_data:
@@ -196,7 +157,6 @@ def loop_dict(kamus_data):
       gabung(daftar_pasangan, pasangan)
   return daftar_pasangan
 
-
 pemnghubung = [
   "nya", "dan", "atau", "tetapi", "melainkan", "maupun", "serta", "bahkan",
   "karena", "sebab", "oleh", "itu", "sehingga", "agar", "supaya", "jika", "apabila",
@@ -204,7 +164,7 @@ pemnghubung = [
   "selama", "sejak", "sesudah", "setelah", "sebelum", "tatkala", "ketika", "sementara",
   "asal", "kecuali", "maka", "kemudian", "lalu", "hingga", "sampai", "justru", "malah",
   "seperti", "ibarat", "bagaikan", "bak", "yang", "untuk", "dengan", "ini", "itu", "ke",
-  "di", "yang", "to", "pem", "an", "per", "jadi"
+  "di", "yang", "to", "pem", "an", "per", "jadi", "the", "of", "in", "on", "at", "by"
 ]
 
 def kecilKan(documents):
@@ -217,13 +177,13 @@ def kecilKan(documents):
       'U': 'u', 'V': 'v', 'W': 'w', 'X': 'x', 'Y': 'y', 'Z': 'z'
   }
   for dokumen in documents:
-    dokumen_kecil = ""
-    for karakter in dokumen:
-        if karakter in konversi:
-            dokumen_kecil += konversi[karakter]
-        else:
-            dokumen_kecil += karakter
-    gabung(hasil, dokumen_kecil)
+      dokumen_kecil = ""
+      for karakter in dokumen:
+          if karakter in konversi:
+              dokumen_kecil += konversi[karakter]
+          else:
+              dokumen_kecil += karakter
+      gabung(hasil, dokumen_kecil)
   return hasil
 
 # hapus tanda baca  
@@ -231,12 +191,12 @@ def hapus_tandabaca(teks):
   tanda = [",", ".", ":", ";", "!", "?", "-", "(", ")", "'", "[", "]", "$", "/"]
   hasil = ""
   for i in range(semua(teks)):
-    cocok = 0
-    for j in range(semua(tanda)):
-        if teks[i] == tanda[j]:
-            cocok = 1
-    if cocok == 0:
-        hasil = hasil + teks[i]
+      cocok = 0
+      for j in range(semua(tanda)):
+          if teks[i] == tanda[j]:
+              cocok = 1
+      if cocok == 0:
+          hasil = hasil + teks[i]
   return hasil
 
 def hapus_penghubung(daftar_kata):
@@ -250,33 +210,42 @@ def hapus_penghubung(daftar_kata):
           gabung(hasil, daftar_kata[i])
   return hasil
 
+# replace(mengganti)
+def replc(teks, dari, ke):
+    hasil = ""
+    i = 0
+    while i < semua(teks):
+        cocok = 1
+        j = 0
+        while j < semua(dari):
+            if i + j >= semua(teks) or teks[i + j] != dari[j]:
+                cocok = 0
+            j += 1
+        if cocok == 1:
+            hasil += ke
+            i += semua(dari)
+        else:
+            hasil += teks[i]
+            i += 1
+    return hasil
 
-# ===============================================================================================
-# ======================================== END STEP 1 ===========================================
-# ===============================================================================================
-
-
-
-
-# ===============================================================================================
-# ======================================== START STEP 2 ===========================================
-# ===============================================================================================
-
-# hitung tf
+# hitung tf - FIXED VERSION
 def tf(terms, doc):
     tf_per_document = []
     for doc_index, doc_words in index(doc):
         current_doc_tf = {}
+        # Inisialisasi semua term dengan 0
         for term in terms:
             current_doc_tf[term] = 0
-        for term in terms:
-            for word_in_doc in doc_words:
+        # Hitung frekuensi setiap term
+        for word_in_doc in doc_words:
+            for term in terms:
                 if term == word_in_doc:
                     current_doc_tf[term] += 1
         gabung(tf_per_document, current_doc_tf)
     return tf_per_document
 
-def log_10(x):
+def log10_manual(x):
     if x <= 0:
         return -1
     hasil = 0
@@ -295,8 +264,10 @@ def log_10(x):
     return hasil
 
 def idft(n, df):
+    if df == 0:
+        return log10_manual(n) + 1
     rasio = (n - df + 0.5) / (df + 0.5)
-    return log_10(rasio) + 1
+    return log10_manual(rasio) + 1
 
 def df(term, tf_doc):
     jumlah = 0
@@ -313,6 +284,8 @@ def panjang_semua(dok_list):
     return total
 
 def avgdl(semua_doc):
+    if semua(semua_doc) == 0:
+        return 0
     return panjang_semua(semua_doc) / semua(semua_doc)
 
 def hitung_df(term, semua_doc):
@@ -346,73 +319,96 @@ def bm25_score_per_doc(query_terms, satu_doc, semua_doc):
             i += 1
 
         df_term = hitung_df(term, semua_doc)
-        idf = log_10((n - df_term + 0.5) / (df_term + 0.5)) + 1
+        if df_term == 0:
+            idf = log10_manual(n) + 1
+        else:
+            idf = log10_manual((n - df_term + 0.5) / (df_term + 0.5)) + 1
 
         if tf > 0:
             atas = tf * (k1 + 1)
-            bawah = tf + k1 * (1 - b + b * (panjang_doc / average))
+            if average == 0:
+                bawah = tf + k1
+            else:
+                bawah = tf + k1 * (1 - b + b * (panjang_doc / average))
             skor = idf * (atas / bawah)
             total_score += skor
 
         idx += 1
     return total_score
 
-
 # =====================================================================================
 
-
+print("Memproses dokumen...")
 kecil_document = kecilKan(documents)
 del_pnghbng_tnd = []
-for teks in kecil_document:
+
+print("Dokumen setelah preprocessing:")
+for i, teks in index(kecil_document):
     teks_bersih = hapus_tandabaca(teks)
     daftar_kata = splt(teks_bersih)
     hasil_bersih = hapus_penghubung(daftar_kata)
     gabung(del_pnghbng_tnd, hasil_bersih)
+    
+    # Debug: tampilkan beberapa dokumen pertama
+    if i < 10:
+        print(f"Dok {i+1}: {hasil_bersih}")
 
-split_query = hapus_penghubung(splt(kecilKan([query])[0]))
+print("\nMemproses query:", query)
+query_bersih = hapus_tandabaca(kecilKan([query])[0])
+split_query = hapus_penghubung(splt(query_bersih))
+print("Query setelah preprocessing:", split_query)
+
 tf_doc = tf(split_query, del_pnghbng_tnd)
 
 # Tampilkan hasil TF
-print("\n========================================= TF TIAP DOKUMEN")
-print("-" * 100)
+print("\nTF Tiap Dokumen:")
 total_kata_query = {}
+ada_hasil = False
+
 for i, tf_data in index(tf_doc):
     ori_doc = documents[i]
-    print(f"Dokumen {i+1} ('{ori_doc}'):")
     kosong = True
     for term, count in loop_dict(tf_data):
         if count > 0:
+            if not ada_hasil:
+                print("Dokumen yang mengandung kata kunci:")
+                ada_hasil = True
+            print(f"Dokumen {i+1} ('{ori_doc}'):")
             print(f"  - '{term}': {count} kali")
             kosong = False
             if term in total_kata_query:
                 total_kata_query[term] += count
             else:
                 total_kata_query[term] = count
-    if kosong:
-        print("  Tidak ada kata kunci kueri yang ditemukan.")
-    print("-" * 100)
+            print("-" * 50)
+            break
+
+if not ada_hasil:
+    print("Tidak ada dokumen yang mengandung kata kunci dari query!")
 
 # Tampilkan IDF Score
-print("\n========================================= IDF SCORE SETIAP KATA DALAM DOKUMEN")
+print("\nIDF Score untuk tiap kata dalam query:")
 jumlah_dokumen = semua(tf_doc)
 for term in split_query:
     doc_freq = df(term, tf_doc)
     skor_idf = idft(jumlah_dokumen, doc_freq)
     print(f"  - '{term}': IDF = {skor_idf:.4f} (DF = {doc_freq})")
 
-print("\n========================================= BM25 Score Tiap DOKUMEN")
+print("\nBM25 Score Tiap Dokumen:")
 list_score = []
 for i in range(semua(del_pnghbng_tnd)):
     skor = bm25_score_per_doc(split_query, del_pnghbng_tnd[i], del_pnghbng_tnd)
-    print(f"Dokumen {i+1}: Skor BM25 = {skor:.4f}")
     if skor > 0:
        gabung(list_score, (i+1, skor))
+       print(f"Dokumen {i+1}: Skor BM25 = {skor:.4f}")
 
-
-print("\n========================================= PERANGKINGAN DOCUMENT")
-# print(list_score)
-ranking = sortir(list_score)
-
-for index, skor in ranking:
-    print(f"Dokumen {index} ('{documents[index - 1]}') ==> Skor BM25 = {skor:.4f}")
+if semua(list_score) > 0:
+    print("\nPerangkingan document:")
+    ranking = sortir(list_score)
+    
     print("-"*100)
+    for index, skor in ranking:
+        print(f"Dokumen {index} ('{documents[index-1]}') ==> Skor BM25 = {skor:.4f}")
+        print("-"*100)
+else:
+    print("\nTidak ada dokumen yang relevan dengan query.")
