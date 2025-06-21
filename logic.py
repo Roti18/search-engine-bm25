@@ -357,10 +357,10 @@ def bm25_score_per_doc(query_terms, satu_doc, semua_doc):
 
 # =====================================================================================
 
-
-lanjut = True
-while lanjut:
+while True:
     query = input("\nMasukkan query: ")
+    if query == "":
+       False
 
     kecil_document = kecilKan(documents)
     del_pnghbng_tnd = []
@@ -376,7 +376,7 @@ while lanjut:
     print("\n========================================= TF TIAP DOKUMEN")
     print("-" * 100)
     total_kata_query = {}
-    for idx, tf_data in index(tf_doc):  # GANTI 'index' dengan 'idx'
+    for idx, tf_data in index(tf_doc):
         ori_doc = documents[idx]
         print(f"Dokumen {idx+1} ('{ori_doc}'):")
         kosong = True
@@ -412,6 +412,4 @@ while lanjut:
     for rank_idx, skor in ranking:
         print(f"Dokumen {rank_idx} ('{documents[rank_idx - 1]}') ==> Skor BM25 = {skor:.4f}")
         print("-"*100)
-
-    tanya = input("\nIngin memasukkan query lagi? (y/n): ")
-    lanjut = kecilKan(tanya)[0] == "y"
+    
